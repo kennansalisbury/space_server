@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "node": "^14.5.0"
+    "morgan": "^1.10.0",
+    "node": "^14.5.0",
+    "rowdy-logger": "^1.0.2"
   }
 }
