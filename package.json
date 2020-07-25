@@ -10,11 +10,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "node": "^14.5.0",
-    "rowdy-logger": "^1.0.2"
+    "oauth-1.0a": "^2.2.6",
+    "rowdy-logger": "^1.0.2",
+    "twitter-lite": "^0.14.0"
   }
 }
