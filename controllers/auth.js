@@ -25,11 +25,6 @@ router.get('/twitter', (req, res) => {
     client
       .getRequestToken(process.env.TWITTER_CALLBACK_URL)
       .then(response => {
-            //redirect to authentication url
-            // res.redirect(`https://api.twitter.com/oauth/authorize?oauth_token=${response.oauth_token}`)
-            // axios.get(`https://api.twitter.com/oauth/authorize?oauth_token=${response.oauth_token}`)
-            // .then(response => res.send(response.data))
-            // .catch(err => console.log('axios error', err))
 
             //send back authentication url
             res.send({url: `https://api.twitter.com/oauth/authorize?oauth_token=${response.oauth_token}`})
@@ -42,14 +37,10 @@ router.get('/twitter', (req, res) => {
 //once authenticated, user will hit this callback - TRY MAKING THE FRONT END THE CALLBACK SO THE RESPONSE IS GOING THERE?
 router.post('/twitter', (req, res) => {
 
-    console.log(req.body)
-
     const client = new Twitter({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET
     })
-
-
 
     client
         .getAccessToken({
@@ -84,7 +75,7 @@ router.post('/twitter', (req, res) => {
 
                     //issue jwt token/send to front end
                     let token = jwt.sign(userData, process.env.JWT_SECRET, {
-                        expiresIn: 60 * 60 * 8
+                        expiresIn: 60 * 60
                     })
                     res.send( {token} ) 
                 })
@@ -93,7 +84,5 @@ router.post('/twitter', (req, res) => {
         .catch(err => console.log(err))
 
 })
-
-
 
 module.exports = router;

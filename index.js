@@ -14,16 +14,9 @@ let rowdyResults = rowdyLogger.begin(app)
 
 // middleware
 app.use(morgan('dev'))
-app.use(cors())
-app.use(express.urlencoded({extended: false})) // Accept data from form
-app.use(express.json()) // Accept data from AJAX call
-// app.use(session({
-//   cookieName: 'session',
-//   secret: process.env.SESSION_SECRET,
-//   duration: 30 * 60 * 1000,
-//   activeDuration: 5 * 60 * 1000,
-// }));
-
+app.use(cors({ origin: '*' , credentials :  true }))
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
 
 //---- routes ------//
 

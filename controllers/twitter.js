@@ -4,18 +4,14 @@
 require('dotenv').config()
 const router = require('express').Router()
 const Twitter = require('twitter-lite')
-const cors = require('cors')
-
-router.use(cors())
+const async = require('async')
 
 
 
 //----- routes ------//
 
 //search for user
-router.get('/user', (req, res) => {
-
-    console.log('🌈req.user', req.user)
+router.post('/user', (req, res) => {
 
     const client = new Twitter({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -26,14 +22,13 @@ router.get('/user', (req, res) => {
 
     client
         .get(`users/search`, {
-            'q': 'chris+cassidy+nasa'
+            'q': req.body.q
         })
         .then(results => {
-            console.log('TWITTER USER SEARCH RESULTS 🌈', results)
+            res.send(results[0])
         })
         .catch(err => console.log(err))
 })
-
 
 
 
