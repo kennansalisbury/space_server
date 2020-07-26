@@ -6,7 +6,7 @@ require('dotenv').config()
 let cors = require('cors')
 let morgan = require('morgan')
 let rowdyLogger = require('rowdy-logger')
-// let session = require('client-sessions')
+let expressJwt = require('express-jwt')
 
 // instantiate app and logger
 let app = express()
@@ -29,6 +29,10 @@ app.use(express.json()) // Accept data from AJAX call
 
 //require auth controller
 app.use('/auth', require('./controllers/auth'))
+app.use('/twitter',  expressJwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ['HS256']
+}), require('./controllers/twitter'))
 
 //catch-all route
 app.get('*', (req, res) => {

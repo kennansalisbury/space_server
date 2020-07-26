@@ -6,7 +6,6 @@ const router = require('express').Router()
 const Twitter = require('twitter-lite')
 const cors = require('cors')
 let jwt = require('jsonwebtoken')
-let fs = require('fs')
 
 router.use(cors())
 
@@ -59,31 +58,40 @@ router.post('/twitter', (req, res) => {
         })
         .then(response => {
 
-            //issue jwt token
-            let token = jwt.sign(response, process.env.JWT_SECRET, {
-                expiresIn: 60 * 60 * 8
-              })
-              console.log(token)
-              res.send( {token} )
-            //or can write to json to be fetched from another route?
-              
+            const userClient = new Twitter({
+                consumer_key: process.env.TWITTER_CONSUMER_KEY,
+                consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+                access_token_key: response.oauth_token,
+                access_token_secret: response.oauth_token_secret
+            })
 
-            //add token to config 
-            // res.redirect('http://localhost:3001/')
-            // res.send({token})
+            userClient
+                .get("account/verify_credentials")
+                .then(results => {
+                    let userData = {
+                        id: results.id,
+                        name: results.name,
+                        screen_name: results.screen_name,
+                        location: results.location,
+                        description: results.description,
+                        followers_count: results.followers_count,
+                        friends_count: results.friends_count,
+                        profile_background_color: results.profile_background_color,
+                        profile_image_url: results.profile_image_url,
+                        oauth_token: response.oauth_token,
+                        oauth_token_secret: response.oauth_token_secret
+                    }
+
+                    //issue jwt token/send to front end
+                    let token = jwt.sign(userData, process.env.JWT_SECRET, {
+                        expiresIn: 60 * 60 * 8
+                    })
+                    res.send( {token} ) 
+                })
+                .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
 
-})
-
-//login will check for user token in config, if there and not expired will send back; if expired, will delete
-router.get('/twitter/user', (req, res) => {
-    console.log('get token from config')
-})
-
-//logout will delete token from config
-router.get('/twitter/logout', (req, res) => {
-    console.log('remove token from config')
 })
 
 
