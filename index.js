@@ -20,7 +20,7 @@ app.use(express.json())
 
 //---- routes ------//
 
-//require auth controller
+//require controllers
 app.use('/auth', require('./controllers/auth'))
 app.use('/twitter',  expressJwt({
   secret: process.env.JWT_SECRET,
