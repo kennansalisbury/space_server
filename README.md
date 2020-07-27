@@ -17,6 +17,7 @@ For client-side repository, and additional details on this project and its requi
 | GET | /auth/twitter | requests a token from twitter that is needed in order to request user authentication |
 | POST | /auth/twitter | makes final request for user access token and then requests user profile information |
 | GET | /twitter/user | searches for user profile by name |
+| GET | /  | confirms server running at current address |
 |  *  | catch-all | returns "not found" message object |
 
 ## Twitter Authentication Flow

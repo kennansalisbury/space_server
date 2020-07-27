@@ -27,6 +27,11 @@ app.use('/twitter',  expressJwt({
   algorithms: ['HS256']
 }), require('./controllers/twitter'))
 
+//home route
+app.get('/', (req, res) => {
+  res.status(200).send({ message: 'Server Connected' })
+})
+
 //catch-all route
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Not Found' })
