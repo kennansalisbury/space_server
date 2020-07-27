@@ -23,6 +23,7 @@ For client-side repository, and additional details on this project and its requi
 Built the following authentication flow after some trial and error, using twitter-lite dependency as support on the backend for signing and sending requests to Twitter.
 
 <img src="./assets/tw-auth.jpg" alt="twitter auth flow" width="400"/>
+
 1. On load, front-end login screen posts GET to /auth/twitter route
 2. /auth/twitter GET route posts request to Twitter for the request token needed prior to authentication requests
 3. Twitter returns the request token to the server
