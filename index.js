@@ -14,7 +14,7 @@ let rowdyResults = rowdyLogger.begin(app)
 
 // middleware
 app.use(morgan('dev'))
-app.use(cors({ origin: '*' , credentials :  true }))
+app.use(cors())
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
