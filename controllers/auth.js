@@ -5,6 +5,7 @@ require('dotenv').config()
 const router = require('express').Router()
 const Twitter = require('twitter-lite')
 let jwt = require('jsonwebtoken')
+let fs = require('fs')
 
 
 //----- routes ------//
@@ -86,5 +87,13 @@ router.post('/twitter', (req, res) => {
         .catch(err => console.log(err))
 
 })
+
+//get astronauts from json data
+router.get('/astros', (req, res) => {
+    let astronauts = fs.readFileSync('./astros.json')
+    let astroData = JSON.parse(astronauts)
+    res.send(astroData)
+})
+
 
 module.exports = router;
