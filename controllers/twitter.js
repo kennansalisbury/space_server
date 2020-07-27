@@ -4,8 +4,6 @@
 require('dotenv').config()
 const router = require('express').Router()
 const Twitter = require('twitter-lite')
-const async = require('async')
-
 
 
 //----- routes ------//

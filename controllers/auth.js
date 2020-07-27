@@ -4,11 +4,7 @@
 require('dotenv').config()
 const router = require('express').Router()
 const Twitter = require('twitter-lite')
-const cors = require('cors')
 let jwt = require('jsonwebtoken')
-
-router.use(cors())
-
 
 
 //----- routes ------//
