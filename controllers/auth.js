@@ -9,9 +9,10 @@ let jwt = require('jsonwebtoken')
 
 //----- routes ------//
 
-//this route will request a token needed in order to request user authentication
+//this route will request a token from twitter that is needed in order to request user authentication
 router.get('/twitter', (req, res) => {
-    //set up twitter client
+    
+    //initiate new twitter-lite client
     const client = new Twitter({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET
@@ -21,8 +22,7 @@ router.get('/twitter', (req, res) => {
     client
       .getRequestToken(process.env.TWITTER_CALLBACK_URL)
       .then(response => {
-
-            //send back authentication url
+            //send back authentication url to front end with token included
             res.send({url: `https://api.twitter.com/oauth/authorize?oauth_token=${response.oauth_token}`})
         }
       )
@@ -30,14 +30,17 @@ router.get('/twitter', (req, res) => {
 
 })
 
-//once authenticated, user will hit this callback - TRY MAKING THE FRONT END THE CALLBACK SO THE RESPONSE IS GOING THERE?
+//once authenticated, user will be redirected to "/authorizing" on the front end 
+    //a post request will then be made to this route, providing the token and verifier needed to complete authentication
 router.post('/twitter', (req, res) => {
-
+    
+    //initiate new twitter-lite client
     const client = new Twitter({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET
     })
 
+    //make request for final user token
     client
         .getAccessToken({
             oauth_verifier: req.body.oauth_verifier,
@@ -45,6 +48,7 @@ router.post('/twitter', (req, res) => {
         })
         .then(response => {
 
+            //use received user tokens to then request full user profile information to send to front end
             const userClient = new Twitter({
                 consumer_key: process.env.TWITTER_CONSUMER_KEY,
                 consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -69,10 +73,12 @@ router.post('/twitter', (req, res) => {
                         oauth_token_secret: response.oauth_token_secret
                     }
 
-                    //issue jwt token/send to front end
+                    //issue jwt token
                     let token = jwt.sign(userData, process.env.JWT_SECRET, {
-                        expiresIn: 60 * 60
+                        expiresIn: 60 * 15 //token expires in 15 minutes
                     })
+
+                    //send jwt token to front end
                     res.send( {token} ) 
                 })
                 .catch(err => console.log(err))

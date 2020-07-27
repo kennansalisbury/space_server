@@ -8,7 +8,7 @@ const Twitter = require('twitter-lite')
 
 //----- routes ------//
 
-//search for user
+//search for user twitter profiles by name
 router.post('/user', (req, res) => {
 
     const client = new Twitter({
@@ -23,6 +23,7 @@ router.post('/user', (req, res) => {
             'q': req.body.q
         })
         .then(results => {
+            //send back the top result
             res.send(results[0])
         })
         .catch(err => console.log(err))
