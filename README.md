@@ -4,7 +4,7 @@ This is the server-side repository for Space Flex, where you can flex your space
 
 For client-side repository, and additional details on this project and its requirements, please visit the following link: [space-flex-client](https://github.com/kennansalisbury/space_client).
 
-## Tech stack and dependencies/APIs used on the Front End
+## Tech stack and dependencies/APIs used on the Back End
 * Node.js
 * Express
 * Twitter API + Twitter-lite library to support
